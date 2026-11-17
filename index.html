@@ -1,0 +1,1522 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>머니가드 | 우리 가족의 똑똑한 금융 파트너</title>
+<style>
+:root {
+  --navy:#172c4d;
+  --blue:#386df5;
+  --pale:#edf3ff;
+  --bg:#f5f7fb;
+  --ink:#202d42;
+  --muted:#8390a3;
+  --line:#e5eaf2;
+  --green:#0d9f79;
+  --red:#ec5870;
+  --orange:#e99a28;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family: "Pretendard","Noto Sans KR",
+               -apple-system,BlinkMacSystemFont,sans-serif;
+  line-height:1.55;
+}
+button,input,select { font:inherit; }
+button { cursor:pointer; transition:.2s; }
+button:hover { filter:brightness(.96); }
+button:active { transform:scale(.98); }
+button:disabled { opacity:.5; cursor:not-allowed; }
+.sidebar {
+  position:fixed;
+  inset:0 auto 0 0;
+  width:235px;
+  background:var(--navy);
+  color:white;
+  padding:29px 19px;
+  z-index:10;
+}
+.logo {
+  font-size:23px;
+  font-weight:850;
+  padding:0 10px 35px;
+  letter-spacing:-1px;
+}
+.logo span { color:#91b5ff; }
+.nav-item {
+  padding:13px 14px;
+  border-radius:11px;
+  margin:6px 0;
+  color:#c1cde1;
+  font-size:14px;
+  font-weight:600;
+  display:flex;
+  gap:11px;
+  align-items:center;
+}
+.nav-item.active {
+  background:#34527c;
+  color:#fff;
+}
+.side-bottom {
+  position:absolute;
+  bottom:28px;
+  left:30px;
+  right:20px;
+  font-size:12px;
+  color:#91a4c1;
+}
+.main {
+  margin-left:235px;
+  max-width:1600px;
+  padding:31px 37px 60px;
+}
+.topbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:30px;
+}
+.topbar h1 {
+  font-size:27px;
+  letter-spacing:-1px;
+  margin:0;
+}
+.subtitle {
+  color:var(--muted);
+  font-size:13px;
+  margin-top:4px;
+}
+.family-pill {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:9px 15px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.hero {
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+  margin-bottom:20px;
+}
+.balance-card {
+  background:linear-gradient(120deg,#275bd7,#567ffd);
+  color:white;
+  padding:29px;
+  border-radius:19px;
+  min-height:225px;
+  position:relative;
+  overflow:hidden;
+}
+.balance-card::after {
+  content:"";
+  position:absolute;
+  width:235px;
+  height:235px;
+  border-radius:50%;
+  border:45px solid #ffffff0c;
+  right:-100px;
+  top:-75px;
+}
+.balance-card .small {
+  font-size:13px;
+  opacity:.85;
+}
+.balance {
+  font-size:clamp(30px,4vw,43px);
+  font-weight:850;
+  letter-spacing:-1.5px;
+  margin:17px 0 22px;
+  overflow-wrap:anywhere;
+}
+.balance-bottom {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.white-button {
+  background:#fff;
+  border:0;
+  padding:9px 16px;
+  border-radius:9px;
+  color:#275bd7;
+  font-size:13px;
+  font-weight:750;
+}
+.soft-white {
+  background:#ffffff20;
+  border:1px solid #ffffff50;
+  color:white;
+  padding:9px 16px;
+  border-radius:9px;
+  font-size:13px;
+}
+.card {
+  background:white;
+  border:1px solid var(--line);
+  padding:23px;
+  border-radius:17px;
+  box-shadow:0 3px 14px #283d6510;
+}
+.card h2 {
+  font-size:17px;
+  margin:0 0 4px;
+  letter-spacing:-.4px;
+}
+.desc {
+  font-size:12px;
+  color:var(--muted);
+  margin:0 0 20px;
+}
+.limit-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:17px;
+  font-size:13px;
+}
+.limit-header strong { font-size:17px; }
+.progress {
+  height:11px;
+  background:#e8edfa;
+  border-radius:20px;
+  overflow:hidden;
+  margin:12px 0;
+}
+.progress div {
+  height:100%;
+  width:0;
+  background:var(--blue);
+  border-radius:20px;
+  transition:width .4s;
+}
+.progress.warning div { background:var(--red); }
+.limit-footer {
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--muted);
+}
+.content-grid {
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:20px;
+}
+.stack {
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.field { margin:0 0 15px; }
+label {
+  display:block;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+input,select {
+  width:100%;
+  padding:12px 13px;
+  background:#fff;
+  border:1px solid #dce3ee;
+  border-radius:9px;
+  outline:0;
+  min-width:0;
+  color:var(--ink);
+}
+input:focus,select:focus {
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px #386df518;
+}
+.two-cols {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+.primary {
+  width:100%;
+  border:none;
+  border-radius:10px;
+  background:var(--blue);
+  color:white;
+  padding:13px;
+  font-weight:750;
+}
+.secondary {
+  padding:10px 13px;
+  border:1px solid var(--line);
+  background:white;
+  color:var(--ink);
+  border-radius:9px;
+  font-size:12px;
+  font-weight:700;
+}
+.error {
+  min-height:16px;
+  font-size:12px;
+  color:var(--red);
+  margin:6px 0;
+}
+.alert-item {
+  display:flex;
+  gap:11px;
+  background:#fff4f2;
+  border:1px solid #ffddd9;
+  border-radius:11px;
+  padding:15px;
+  margin-top:12px;
+}
+.alert-item.info {
+  background:#f0f5ff;
+  border-color:#dfeaff;
+}
+.alert-icon { font-size:22px; }
+.alert-item strong {
+  display:block;
+  font-size:13px;
+}
+.alert-item p {
+  font-size:12px;
+  margin:4px 0 0;
+  color:#68758a;
+  overflow-wrap:anywhere;
+}
+.alert-item time {
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:6px;
+}
+.section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+.section-head h2 { margin:0; }
+.category-row {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:15px 0;
+  font-size:12px;
+}
+.category-icon {
+  background:#f2f5fc;
+  width:37px;
+  height:37px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  font-size:20px;
+  flex-shrink:0;
+}
+.cat-info { flex:1; min-width:0; }
+.cat-info strong {
+  display:block;
+  font-size:12px;
+}
+.cat-track {
+  margin-top:6px;
+  height:6px;
+  background:#edf1f8;
+  border-radius:10px;
+  overflow:hidden;
+}
+.cat-track div {
+  background:var(--blue);
+  height:100%;
+  border-radius:10px;
+}
+.cat-money {
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.transaction {
+  display:flex;
+  align-items:center;
+  padding:14px 0;
+  border-bottom:1px solid #f0f2f7;
+  gap:12px;
+}
+.transaction:last-child { border-bottom:0; }
+.tx-icon {
+  background:#edf3ff;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  flex-shrink:0;
+  font-size:21px;
+}
+.tx-name {
+  flex:1;
+  min-width:0;
+}
+.tx-name strong {
+  display:block;
+  font-size:13px;
+  overflow-wrap:anywhere;
+}
+.tx-name span {
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+}
+.tx-value {
+  text-align:right;
+  font-weight:750;
+  font-size:13px;
+  white-space:nowrap;
+}
+.tx-value.plus { color:var(--green); }
+.tx-value.minus { color:var(--ink); }
+.tip {
+  display:flex;
+  gap:12px;
+  background:#f1f7ff;
+  padding:15px;
+  border-radius:11px;
+  margin:10px 0;
+}
+.tip strong { font-size:13px; }
+.tip p {
+  font-size:12px;
+  color:#67758e;
+  margin:4px 0 0;
+}
+.saving {
+  background:#eaf9f2;
+  border-radius:12px;
+  padding:18px;
+  margin-top:17px;
+}
+.saving span {
+  color:#278766;
+  font-size:12px;
+  font-weight:700;
+}
+.saving strong {
+  display:block;
+  color:#087e59;
+  font-size:25px;
+  margin-top:4px;
+}
+.member-row {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding:11px 0;
+  border-bottom:1px solid #f0f2f7;
+}
+.member-row:last-child { border:0; }
+.avatar {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  background:#edf2ff;
+  display:grid;
+  place-items:center;
+}
+.member-name { flex:1; font-size:13px; font-weight:700; }
+.member-spend { font-size:13px; font-weight:800; }
+.empty {
+  text-align:center;
+  padding:28px 8px;
+  color:var(--muted);
+  font-size:13px;
+}
+.notice {
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:23px;
+}
+.modal-bg {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#12213a99;
+  z-index:100;
+  padding:20px;
+  align-items:center;
+  justify-content:center;
+}
+.modal-bg.show { display:flex; }
+.modal {
+  background:white;
+  border-radius:20px;
+  padding:25px;
+  width:100%;
+  max-width:420px;
+  max-height:90vh;
+  overflow:auto;
+}
+.modal h2 { margin:0 0 17px; }
+.modal-actions {
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+.modal-actions>* { flex:1; }
+.toast {
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,100px);
+  background:#1b304d;
+  color:white;
+  padding:13px 22px;
+  border-radius:11px;
+  z-index:200;
+  font-size:13px;
+  box-shadow:0 10px 30px #0002;
+  opacity:0;
+  transition:.3s;
+  pointer-events:none;
+  max-width:90%;
+  text-align:center;
+}
+.toast.show {
+  transform:translate(-50%,0);
+  opacity:1;
+}
+@media(max-width:1100px) {
+  .sidebar { width:190px; }
+  .main {
+    margin-left:190px;
+    padding:25px 20px;
+  }
+}
+@media(max-width:850px) {
+  .sidebar { display:none; }
+  .main {
+    margin:0 auto;
+    padding:20px 15px 40px;
+  }
+  .hero,.content-grid { grid-template-columns:1fr; }
+  .topbar h1 { font-size:23px; }
+}
+@media(max-width:450px) {
+  .card { padding:17px; }
+  .balance-card { padding:22px; }
+  .family-pill { font-size:11px; padding:7px 10px; }
+  .two-cols { grid-template-columns:1fr; gap:0; }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+  <div class="logo">🛡️ 머니<span>가드</span></div>
+  <div class="nav-item active">▦ &nbsp; 가족 대시보드</div>
+  <div class="nav-item">💳 &nbsp; 공동 통장</div>
+  <div class="nav-item">🔔 &nbsp; 소비 알림</div>
+  <div class="nav-item">💡 &nbsp; 절약 가이드</div>
+  <div class="side-bottom">
+    MONEY GUARD<br>
+    가족의 돈을 함께 지켜요.
+  </div>
+</aside>
+
+<main class="main">
+  <header class="topbar">
+    <div>
+      <h1>우리 가족 금융 대시보드 👋</h1>
+      <div class="subtitle">
+        함께 관리하는 돈, 더 든든한 우리 가족
+      </div>
+    </div>
+    <div class="family-pill">🏠 우리 가족 공동 통장</div>
+  </header>
+
+  <section class="hero">
+    <div class="balance-card">
+      <div class="small">💰 우리 가족 공동 통장 잔액</div>
+      <div class="balance" id="balanceDisplay">0원</div>
+      <div class="balance-bottom">
+        <button class="white-button"
+                onclick="openDeposit()">+ 돈 입금하기</button>
+        <button class="soft-white"
+                onclick="openLimit()">⚙ 소비 한도 설정</button>
+      </div>
+      <div class="small" style="margin-top:20px">
+        🔒 가족 모두 함께 지키는 소중한 돈
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>📊 이번 달 소비 현황</h2>
+      <p class="desc">가족의 소비가 한도 안에 있는지 확인하세요.</p>
+      <div class="limit-header">
+        <span>이번 달 총 소비</span>
+        <strong id="totalSpent">0원</strong>
+      </div>
+      <div class="progress" id="progress">
+        <div id="progressBar"></div>
+      </div>
+      <div class="limit-footer">
+        <span id="limitPercent">0% 사용</span>
+        <span id="limitDisplay">한도 0원</span>
+      </div>
+      <div id="limitMessage"
+           style="font-size:12px;margin-top:15px"></div>
+    </div>
+  </section>
+
+  <div class="content-grid">
+    <div class="stack">
+
+      <section class="card">
+        <h2>💳 새로운 소비 기록</h2>
+        <p class="desc">
+          가족의 카드 결제나 계좌이체를 입력해 보세요.
+          자동으로 소비 유형을 분류합니다.
+        </p>
+
+        <div class="two-cols">
+          <div class="field">
+            <label for="member">소비한 가족 구성원</label>
+            <select id="member"></select>
+          </div>
+          <div class="field">
+            <label for="payType">결제 방법</label>
+            <select id="payType">
+              <option value="카드 결제">💳 카드 결제</option>
+              <option value="계좌이체">🏦 계좌이체</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="merchant">어디에 사용했나요?</label>
+          <input id="merchant" type="text" maxlength="50"
+                 placeholder="예: 편의점, 치킨, 택시, 카페">
+        </div>
+
+        <div class="two-cols">
+          <div class="field">
+            <label for="spendAmount">결제 금액 (원)</label>
+            <input id="spendAmount" type="number"
+                   min="1" step="1"
+                   placeholder="예: 15000">
+          </div>
+          <div class="field">
+            <label for="category">소비 분류</label>
+            <select id="category">
+              <option value="auto">✨ 자동 분류</option>
+              <option value="식비">🍔 식비</option>
+              <option value="카페·간식">☕ 카페·간식</option>
+              <option value="교통">🚌 교통</option>
+              <option value="쇼핑">🛍️ 쇼핑</option>
+              <option value="생활">🏠 생활</option>
+              <option value="기타">📦 기타</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="primary" onclick="addExpense()">
+          💳 소비 내역 등록하기
+        </button>
+        <div class="error" id="spendError" role="alert"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>🔔 가족 소비 알림</h2>
+          <button class="secondary" onclick="clearAlerts()">
+            모두 읽음
+          </button>
+        </div>
+        <p class="desc">
+          새로운 소비와 과소비 경고를 확인할 수 있어요.
+        </p>
+        <div id="alerts" aria-live="polite"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <h2>🧾 최근 입출금 내역</h2>
+          <button class="secondary" onclick="resetDemo()">
+            시연 초기화
+          </button>
+        </div>
+        <div id="transactions"></div>
+      </section>
+    </div>
+
+    <div class="stack">
+
+      <section class="card">
+        <h2>👨‍👩‍👧‍👦 우리 가족 소비 분석</h2>
+        <p class="desc">
+          누가 얼마나 사용했는지 확인할 수 있어요.
+        </p>
+        <div id="members"></div>
+
+        <div style="margin-top:20px">
+          <button class="secondary" onclick="openMember()">
+            + 가족 구성원 추가
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>📈 소비 유형 분석</h2>
+        <p class="desc">
+          어떤 항목에 돈을 많이 쓰고 있을까요?
+        </p>
+        <div id="categoryChart"></div>
+      </section>
+
+      <section class="card">
+        <h2>💡 머니가드 절약 코치</h2>
+        <p class="desc">
+          소비 내역을 분석해 절약 방법을 추천해요.
+        </p>
+
+        <div id="tips"></div>
+
+        <div class="saving">
+          <span>🌱 이번 달 예상 절약 가능 금액</span>
+          <strong id="savingEstimate">0원</strong>
+          <div style="font-size:11px;color:#47816b;margin-top:5px">
+            선택 지출의 일부를 줄였을 때의 예상 금액입니다.
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="notice">
+    머니가드는 해커톤 시연용 금융 교육 서비스입니다.
+    실제 은행·카드 결제·AI 서버와 연결되지 않습니다.
+    데이터는 현재 브라우저에만 저장됩니다.
+  </div>
+</main>
+
+<!-- 입금 창 -->
+<div class="modal-bg" id="depositModal">
+  <div class="modal" role="dialog" aria-modal="true"
+       aria-labelledby="depositTitle">
+    <h2 id="depositTitle">💰 공동 통장 입금</h2>
+    <div class="field">
+      <label for="depositMember">입금하는 사람</label>
+      <select id="depositMember"></select>
+    </div>
+    <div class="field">
+      <label for="depositAmount">입금 금액 (원)</label>
+      <input type="number" id="depositAmount"
+             min="1" step="1" placeholder="예: 100000">
+    </div>
+    <div class="error" id="depositError"></div>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModals()">
+        취소
+      </button>
+      <button class="primary" onclick="addDeposit()">
+        입금하기
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 한도 설정 창 -->
+<div class="modal-bg" id="limitModal">
+  <div class="modal" role="dialog" aria-modal="true"
+       aria-labelledby="limitTitle">
+    <h2 id="limitTitle">⚙ 소비 한도 설정</h2>
+    <div class="field">
+      <label for="newLimit">가족 월간 소비 한도 (원)</label>
+      <input type="number" id="newLimit" min="1" step="1">
+    </div>
+    <div class="error" id="limitError"></div>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModals()">
+        취소
+      </button>
+      <button class="primary" onclick="saveLimit()">
+        설정하기
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 가족 추가 창 -->
+<div class="modal-bg" id="memberModal">
+  <div class="modal" role="dialog" aria-modal="true"
+       aria-labelledby="memberTitle">
+    <h2 id="memberTitle">👨‍👩‍👧 가족 구성원 추가</h2>
+    <div class="field">
+      <label for="newMember">가족 이름 또는 별명</label>
+      <input type="text" id="newMember"
+             maxlength="20" placeholder="예: 동생">
+    </div>
+    <div class="error" id="memberError"></div>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeModals()">
+        취소
+      </button>
+      <button class="primary" onclick="addMember()">
+        추가하기
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 경고 팝업 -->
+<div class="modal-bg" id="warningModal">
+  <div class="modal" role="alertdialog"
+       aria-modal="true" aria-labelledby="warningTitle">
+    <div style="font-size:45px;text-align:center">🚨</div>
+    <h2 id="warningTitle" style="text-align:center">
+      과소비 주의 알림!
+    </h2>
+    <p id="warningText"
+       style="text-align:center;font-size:14px;color:#66758b"></p>
+    <button class="primary" onclick="closeModals()">
+      확인했어요!
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+// 머니가드 데모
+// 외부 API, 라이브러리, 서버, 데이터베이스 없이 작동합니다.
+// 브라우저 localStorage를 사용하며 실제 은행 거래가 아닙니다.
+
+const STORAGE_KEY = "moneyguard_demo_v1";
+
+function initialData() {
+  return {
+    balance: 1500000,
+    limit: 500000,
+    members: ["아빠","엄마","나","동생"],
+    transactions: [],
+    alerts: [],
+    nextId: 1
+  };
+}
+
+let db;
+
+try {
+  const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
+  if (
+    stored &&
+    Array.isArray(stored.members) &&
+    Array.isArray(stored.transactions) &&
+    Array.isArray(stored.alerts) &&
+    Number.isFinite(stored.balance) &&
+    Number.isFinite(stored.limit) &&
+    Number.isInteger(stored.nextId)
+  ) {
+    db = stored;
+  } else {
+    db = initialData();
+  }
+} catch(e) {
+  db = initialData();
+}
+
+const $ = id => document.getElementById(id);
+
+const categories = {
+  "식비": { emoji:"🍔" },
+  "카페·간식": { emoji:"☕" },
+  "교통": { emoji:"🚌" },
+  "쇼핑": { emoji:"🛍️" },
+  "생활": { emoji:"🏠" },
+  "기타": { emoji:"📦" }
+};
+
+function won(n) {
+  return Math.round(n).toLocaleString("ko-KR") + "원";
+}
+
+function validMoney(n) {
+  return Number.isSafeInteger(n) && n > 0;
+}
+
+function inputMoney(id) {
+  const text = $(id).value.trim();
+  if (!text) return NaN;
+  return Number(text);
+}
+
+function monthKey(time) {
+  const d = new Date(time);
+  return d.getFullYear() + "-" +
+    String(d.getMonth()+1).padStart(2,"0");
+}
+
+function thisMonth() {
+  return monthKey(Date.now());
+}
+
+function currentExpenses() {
+  return db.transactions.filter(t =>
+    t.type === "expense" && monthKey(t.time) === thisMonth()
+  );
+}
+
+function totalSpent() {
+  return currentExpenses().reduce((sum,t)=>sum+t.amount,0);
+}
+
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+  } catch(e) {
+    toast("브라우저 저장 공간 문제로 저장하지 못했습니다.");
+  }
+}
+
+function toast(message) {
+  const el = $("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer = setTimeout(
+    ()=>el.classList.remove("show"),3000
+  );
+}
+
+function escapeHTML(text) {
+  return String(text).replace(/[&<>"']/g, char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[char]);
+}
+
+function dateText(time) {
+  return new Date(time).toLocaleString("ko-KR",{
+    month:"numeric",
+    day:"numeric",
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+}
+
+function addAlert(title,detail,danger=false) {
+  db.alerts.unshift({
+    id:db.nextId++,
+    title,detail,danger,
+    time:Date.now()
+  });
+  db.alerts=db.alerts.slice(0,30);
+}
+
+// 키워드를 이용한 간단한 규칙 기반 자동 분류
+function classify(text) {
+  const s=text.toLowerCase();
+
+  const rules = [
+    {
+      name:"카페·간식",
+      words:["카페","커피","스타벅스","메가커피",
+        "컴포즈","빽다방","디저트","아이스크림","베이커리"]
+    },
+    {
+      name:"식비",
+      words:["치킨","피자","햄버거","버거","식당",
+        "김밥","분식","배달","떡볶이","급식","편의점",
+        "맥도날드","롯데리아","밥","음식"]
+    },
+    {
+      name:"교통",
+      words:["버스","지하철","택시","교통","주유",
+        "기차","ktx","톨게이트","주차"]
+    },
+    {
+      name:"쇼핑",
+      words:["쇼핑","쿠팡","옷","신발","무신사",
+        "올리브영","화장품","의류","가방"]
+    },
+    {
+      name:"생활",
+      words:["마트","관리비","전기","수도","가스",
+        "통신","병원","약국","생필품","학원","교재"]
+    }
+  ];
+
+  for(const rule of rules) {
+    if(rule.words.some(word=>s.includes(word))) {
+      return rule.name;
+    }
+  }
+  return "기타";
+}
+
+function getCategoryTotals() {
+  const totals={};
+  for(const name of Object.keys(categories)) totals[name]=0;
+
+  for(const t of currentExpenses()) {
+    totals[t.category]=(totals[t.category]||0)+t.amount;
+  }
+  return totals;
+}
+
+function addExpense() {
+  const name=$("merchant").value.trim();
+  const amount=inputMoney("spendAmount");
+  const member=$("member").value;
+  const payType=$("payType").value;
+  const chosen=$("category").value;
+
+  $("spendError").textContent="";
+
+  if(!db.members.includes(member) || !name) {
+    $("spendError").textContent=
+      "가족 구성원과 사용처를 입력해 주세요.";
+    return;
+  }
+
+  if(!validMoney(amount)) {
+    $("spendError").textContent=
+      "결제 금액은 1원 이상의 정수로 입력해 주세요.";
+    return;
+  }
+
+  if(amount>db.balance) {
+    $("spendError").textContent=
+      "공동 통장 잔액보다 큰 금액은 결제할 수 없습니다.";
+    return;
+  }
+
+  const category=chosen==="auto"?classify(name):chosen;
+  const before=totalSpent();
+
+  db.balance-=amount;
+  db.transactions.unshift({
+    id:db.nextId++,
+    type:"expense",
+    member,
+    name,
+    payType,
+    category,
+    amount,
+    time:Date.now()
+  });
+
+  addAlert(
+    "💳 새로운 가족 소비",
+    `${member}님이 ${name}에서 ${won(amount)}을 사용했습니다. `+
+    `분류: ${category}`
+  );
+
+  const after=totalSpent();
+  let warnings=[];
+
+  // 가족 월간 소비 한도 초과 감지
+  if(before<=db.limit && after>db.limit) {
+    const over=after-db.limit;
+    const msg=`가족의 이번 달 소비가 한도를 `+
+      `${won(over)} 초과했습니다.`;
+    addAlert("🚨 가족 소비 한도 초과",msg,true);
+    warnings.push(msg);
+  } else if(before<db.limit*.8 && after>=db.limit*.8
+            && after<=db.limit) {
+    addAlert(
+      "⚠️ 한도의 80%에 도달했어요",
+      "이번 달 소비를 조금 더 신중하게 관리해 보세요.",
+      true
+    );
+    warnings.push("이번 달 가족 소비 한도의 80%에 도달했습니다.");
+  }
+
+  // 선택 지출에 대한 즉각적인 과소비 주의
+  if(
+    ["카페·간식","쇼핑"].includes(category) &&
+    amount>=50000
+  ) {
+    const msg=`${member}님의 ${category} 지출이 `+
+      `${won(amount)}입니다. 꼭 필요한 소비인지 확인해 보세요.`;
+    addAlert("⚠️ 큰 선택 지출 감지",msg,true);
+    warnings.push(msg);
+  }
+
+  save();
+  renderAll();
+
+  $("merchant").value="";
+  $("spendAmount").value="";
+  $("category").value="auto";
+
+  if(warnings.length) {
+    $("warningText").textContent=warnings.join(" ");
+    showModal("warningModal");
+  } else {
+    toast("✅ 소비가 등록되고 가족 알림에 반영되었습니다.");
+  }
+}
+
+function openDeposit() {
+  $("depositAmount").value="";
+  $("depositError").textContent="";
+  showModal("depositModal");
+}
+
+function addDeposit() {
+  const amount=inputMoney("depositAmount");
+  const member=$("depositMember").value;
+
+  if(!validMoney(amount) || !db.members.includes(member)) {
+    $("depositError").textContent=
+      "입금자와 1원 이상의 입금 금액을 확인해 주세요.";
+    return;
+  }
+
+  if(!Number.isSafeInteger(db.balance+amount)) {
+    $("depositError").textContent=
+      "입금 가능한 금액 범위를 초과했습니다.";
+    return;
+  }
+
+  db.balance+=amount;
+  db.transactions.unshift({
+    id:db.nextId++,
+    type:"deposit",
+    name:"공동 통장 입금",
+    member,
+    amount,
+    time:Date.now()
+  });
+
+  addAlert(
+    "💰 가족 공동 통장 입금",
+    `${member}님이 ${won(amount)}을 입금했습니다.`
+  );
+
+  save();
+  closeModals();
+  renderAll();
+  toast("입금이 완료되었습니다!");
+}
+
+function openLimit() {
+  $("newLimit").value=db.limit;
+  $("limitError").textContent="";
+  showModal("limitModal");
+}
+
+function saveLimit() {
+  const limit=inputMoney("newLimit");
+
+  if(!validMoney(limit)) {
+    $("limitError").textContent=
+      "월간 한도는 1원 이상의 정수로 입력해 주세요.";
+    return;
+  }
+
+  db.limit=limit;
+  addAlert(
+    "⚙ 소비 한도 변경",
+    `가족 월간 소비 한도가 ${won(limit)}으로 변경되었습니다.`
+  );
+
+  if(totalSpent()>limit) {
+    addAlert(
+      "🚨 현재 소비가 새 한도를 초과합니다",
+      `새 한도보다 ${won(totalSpent()-limit)} 더 사용했습니다.`,
+      true
+    );
+  }
+
+  save();
+  closeModals();
+  renderAll();
+  toast("가족 소비 한도가 변경되었습니다.");
+}
+
+function openMember() {
+  $("newMember").value="";
+  $("memberError").textContent="";
+  showModal("memberModal");
+}
+
+function addMember() {
+  const name=$("newMember").value.trim();
+
+  if(!name) {
+    $("memberError").textContent="이름을 입력해 주세요.";
+    return;
+  }
+
+  if(db.members.includes(name)) {
+    $("memberError").textContent="이미 등록된 가족 이름입니다.";
+    return;
+  }
+
+  if(db.members.length>=12) {
+    $("memberError").textContent=
+      "시연용 서비스는 최대 12명까지 등록할 수 있습니다.";
+    return;
+  }
+
+  db.members.push(name);
+  addAlert(
+    "👨‍👩‍👧 새로운 가족 구성원",
+    `${name}님이 공동 통장 구성원에 추가되었습니다.`
+  );
+
+  save();
+  closeModals();
+  renderAll();
+  toast(name+"님이 가족에 추가되었습니다.");
+}
+
+function clearAlerts() {
+  db.alerts=[];
+  save();
+  renderAlerts();
+  toast("알림을 모두 읽음 처리했습니다.");
+}
+
+function resetDemo() {
+  if(!confirm(
+    "모든 시연 데이터와 가족 구성원, 거래 내역을 초기화할까요?"
+  )) return;
+
+  db=initialData();
+  save();
+  renderAll();
+  toast("시연 데이터가 초기화되었습니다.");
+}
+
+function showModal(id) {
+  closeModals();
+  $(id).classList.add("show");
+}
+
+function closeModals() {
+  document.querySelectorAll(".modal-bg").forEach(el=>{
+    el.classList.remove("show");
+  });
+}
+
+function renderMembersSelect() {
+  for(const id of ["member","depositMember"]) {
+    const select=$(id);
+    const old=select.value;
+    select.innerHTML="";
+
+    db.members.forEach(name=>{
+      const opt=document.createElement("option");
+      opt.value=name;
+      opt.textContent=name;
+      select.appendChild(opt);
+    });
+
+    if(db.members.includes(old)) select.value=old;
+  }
+}
+
+function renderBalance() {
+  $("balanceDisplay").textContent=won(db.balance);
+
+  const total=totalSpent();
+  const percent=total/db.limit*100;
+
+  $("totalSpent").textContent=won(total);
+  $("limitDisplay").textContent="한도 "+won(db.limit);
+  $("limitPercent").textContent=
+    percent.toFixed(1)+"% 사용";
+  $("progressBar").style.width=
+    Math.min(100,percent)+"%";
+
+  $("progress").className=
+    "progress"+(percent>=80?" warning":"");
+
+  const msg=$("limitMessage");
+
+  if(percent>100) {
+    msg.style.color="var(--red)";
+    msg.textContent=
+      "🚨 소비 한도를 "+won(total-db.limit)+
+      " 초과했습니다!";
+  } else if(percent>=80) {
+    msg.style.color="var(--orange)";
+    msg.textContent=
+      "⚠️ 한도가 얼마 남지 않았어요. 소비를 조심하세요!";
+  } else {
+    msg.style.color="var(--green)";
+    msg.textContent=
+      "✅ 아직 소비 한도 안에 있어요. 잘 관리하고 있어요!";
+  }
+}
+
+function renderMembers() {
+  const expense=currentExpenses();
+  const box=$("members");
+  box.innerHTML="";
+
+  db.members.forEach((name,index)=>{
+    const total=expense
+      .filter(t=>t.member===name)
+      .reduce((sum,t)=>sum+t.amount,0);
+
+    const row=document.createElement("div");
+    row.className="member-row";
+    row.innerHTML=`
+      <div class="avatar">${["👨","👩","🧑","👧","🙂"][index%5]}</div>
+      <div class="member-name">${escapeHTML(name)}</div>
+      <div class="member-spend">${won(total)}</div>
+    `;
+    box.appendChild(row);
+  });
+}
+
+function renderCategories() {
+  const box=$("categoryChart");
+  const totals=getCategoryTotals();
+  const max=Math.max(1,...Object.values(totals));
+
+  if(totalSpent()===0) {
+    box.innerHTML=
+      '<div class="empty">소비를 등록하면 분석이 시작됩니다.</div>';
+    return;
+  }
+
+  box.innerHTML="";
+
+  for(const [name,data] of Object.entries(categories)) {
+    const amount=totals[name]||0;
+    if(amount===0) continue;
+
+    const percent=amount/max*100;
+
+    const row=document.createElement("div");
+    row.className="category-row";
+    row.innerHTML=`
+      <div class="category-icon">${data.emoji}</div>
+      <div class="cat-info">
+        <strong>${name}</strong>
+        <div class="cat-track">
+          <div style="width:${percent}%"></div>
+        </div>
+      </div>
+      <div class="cat-money">${won(amount)}</div>
+    `;
+    box.appendChild(row);
+  }
+}
+
+function renderTransactions() {
+  const box=$("transactions");
+  box.innerHTML="";
+
+  if(db.transactions.length===0) {
+    box.innerHTML=
+      '<div class="empty">아직 입출금 내역이 없습니다.<br>'+
+      '소비를 등록해 보세요!</div>';
+    return;
+  }
+
+  db.transactions.slice(0,8).forEach(t=>{
+    const deposit=t.type==="deposit";
+    const emoji=deposit?"💰":
+      (categories[t.category]?.emoji||"💳");
+
+    const row=document.createElement("div");
+    row.className="transaction";
+    row.innerHTML=`
+      <div class="tx-icon">${emoji}</div>
+      <div class="tx-name">
+        <strong>${escapeHTML(t.name)}</strong>
+        <span>
+          ${escapeHTML(t.member)} ·
+          ${escapeHTML(deposit?"입금":t.payType)} ·
+          ${dateText(t.time)}
+        </span>
+      </div>
+      <div class="tx-value ${deposit?"plus":"minus"}">
+        ${deposit?"+":"−"}${won(t.amount)}
+      </div>
+    `;
+    box.appendChild(row);
+  });
+}
+
+function renderAlerts() {
+  const box=$("alerts");
+  box.innerHTML="";
+
+  if(db.alerts.length===0) {
+    box.innerHTML=
+      '<div class="empty">🔔 아직 새로운 알림이 없습니다.</div>';
+    return;
+  }
+
+  db.alerts.slice(0,6).forEach(a=>{
+    const row=document.createElement("div");
+    row.className="alert-item"+(a.danger?"":" info");
+    row.innerHTML=`
+      <div class="alert-icon">${a.danger?"🚨":"🔔"}</div>
+      <div>
+        <strong>${escapeHTML(a.title)}</strong>
+        <p>${escapeHTML(a.detail)}</p>
+        <time>${dateText(a.time)}</time>
+      </div>
+    `;
+    box.appendChild(row);
+  });
+}
+
+// 소비 분류와 절약 추천 규칙
+function renderTips() {
+  const box=$("tips");
+  const totals=getCategoryTotals();
+  const expense=currentExpenses();
+  const total=totalSpent();
+
+  if(total===0) {
+    box.innerHTML=`
+      <div class="tip">
+        <div>💡</div>
+        <div>
+          <strong>우리 가족의 절약 코치</strong>
+          <p>
+            소비 내역을 입력하면 소비 유형에 맞는
+            추천이 나타납니다.
+          </p>
+        </div>
+      </div>`;
+    $("savingEstimate").textContent="0원";
+    return;
+  }
+
+  // 카페·간식 30%, 쇼핑 20%, 식비 10%를
+  // 줄인다는 단순 가정에 따른 교육용 추정치
+  const saving=Math.round(
+    (totals["카페·간식"]*.30+
+     totals["쇼핑"]*.20+
+     totals["식비"]*.10)/100
+  )*100;
+
+  $("savingEstimate").textContent=won(saving);
+
+  const advice=[];
+
+  if(totals["카페·간식"]>0) {
+    advice.push({
+      icon:"☕",
+      title:"카페·간식 소비 줄이기",
+      content:"음료나 간식 소비를 약 30% 줄이면 "+
+        won(Math.round(totals["카페·간식"]*.3))+
+        "을 아낄 수 있어요."
+    });
+  }
+
+  if(totals["쇼핑"]>0) {
+    advice.push({
+      icon:"🛍️",
+      title:"쇼핑 전 하루 고민하기",
+      content:"충동구매를 줄이고 쇼핑 비용을 "+
+        "20% 절약하는 것을 목표로 해 보세요."
+    });
+  }
+
+  if(totals["식비"]>0) {
+    advice.push({
+      icon:"🍱",
+      title:"식비 계획 세우기",
+      content:"배달이나 외식 횟수를 조금 줄이고 "+
+        "식비의 10%를 아껴 보세요."
+    });
+  }
+
+  if(totals["교통"]>0) {
+    advice.push({
+      icon:"🚌",
+      title:"교통비 관리하기",
+      content:"이동 경로와 대중교통 이용을 비교해 "+
+        "불필요한 교통비를 줄여 보세요."
+    });
+  }
+
+  if(total>db.limit*.8) {
+    advice.unshift({
+      icon:"⚠️",
+      title:"이번 달 소비 한도를 확인하세요",
+      content:"한도의 80% 이상 사용했습니다. "+
+        "남은 기간에는 꼭 필요한 소비를 우선하세요."
+    });
+  }
+
+  if(advice.length===0) {
+    advice.push({
+      icon:"🌱",
+      title:"가족 지출 계획을 세워 보세요",
+      content:"지출을 필수 소비와 선택 소비로 나누고 "+
+        "매주 함께 점검해 보세요."
+    });
+  }
+
+  box.innerHTML=advice.slice(0,4).map(t=>`
+    <div class="tip">
+      <div style="font-size:23px">${t.icon}</div>
+      <div>
+        <strong>${t.title}</strong>
+        <p>${t.content}</p>
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderAll() {
+  renderMembersSelect();
+  renderBalance();
+  renderMembers();
+  renderCategories();
+  renderTransactions();
+  renderAlerts();
+  renderTips();
+}
+
+// 팝업 바깥 영역 클릭 시 닫기
+document.querySelectorAll(".modal-bg").forEach(modal=>{
+  modal.addEventListener("click",e=>{
+    if(e.target===modal) closeModals();
+  });
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape") closeModals();
+});
+
+// 새로 열거나 새로고침할 때 최신 상태 반영
+window.addEventListener("storage",e=>{
+  if(e.key===STORAGE_KEY) {
+    try {
+      db=JSON.parse(e.newValue)||initialData();
+      renderAll();
+    } catch(error) {}
+  }
+});
+
+// 시연 시작
+renderAll();
+</script>
+</body>
+</html>
